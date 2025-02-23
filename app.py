@@ -3,15 +3,16 @@ import openai
 import os
 
 def get_openai_response(prompt, api_key):
-    """Function to generate AI responses using OpenAI's GPT."""
-    openai.api_key = api_key
+    """Function to generate AI responses using OpenAI's latest API."""
+    openai_client = openai.OpenAI(api_key=api_key)
+    
     try:
-        response = openai.ChatCompletion.create(
+        response = openai_client.chat.completions.create(
             model="gpt-4",
             messages=[{"role": "system", "content": "You are an interview preparation assistant."},
                       {"role": "user", "content": prompt}]
         )
-        return response['choices'][0]['message']['content'].strip()
+        return response.choices[0].message.content.strip()
     except Exception as e:
         return f"Error: {str(e)}"
 
